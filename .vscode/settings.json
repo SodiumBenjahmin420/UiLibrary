@@ -1,0 +1,9 @@
+{
+    "stylua.targetReleaseVersion": "latest",
+    "robloxLsp.diagnostics.globals": [
+        "getgenv",
+        "crypt",
+        "lz4_compress",
+        "lz4_decompress"
+    ]
+}

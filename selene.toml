@@ -1,0 +1,14 @@
+std = "roblox"
+
+[rules]
+global_usage = "allow"
+multiple_statements = "allow"
+incorrect_standard_library_use = "allow"
+mixed_table = "allow"
+
+[globals]
+getgenv = {
+    args = [],
+    returns = { type = "table" },
+    description = "Returns the environment that will be applied to each script run by Wave."
+}
