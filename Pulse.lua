@@ -1,3 +1,4 @@
+
 local Pulse = {}
 local env = getgenv()
 
@@ -9,70 +10,52 @@ local function createUUID()
     end)
 end
 
-local function compressAndEncrypt(value)
-    local stringValue = tostring(value)
-    local compressed = lz4_compress(stringValue)
-    local encrypted = crypt.encrypt(compressed, crypt.generatekey(stringValue))
-    return encrypted
-end
-
-local function decryptAndDecompress(encryptedValue)
-    local decrypted = crypt.decrypt(encryptedValue, crypt.generatekey(tostring(math.random())))
-    local decompressed = lz4_decompress(decrypted)
-    return decompressed
-end
-
 local VariableTracker = {}
 VariableTracker.__index = VariableTracker
 
 function Pulse.new(initialValue)
     local self = setmetatable({
-        _uuid = createUUID(),
-        _value = nil,
+        _value = initialValue,
         _callbacks = {},
-        _connections = {},
+        _listenEnabled = true,
+        _uuid = createUUID()
     }, VariableTracker)
-    
-    if initialValue ~= nil then
-        self:Set(initialValue)
-    end
-    
-    env[self._uuid] = self
+
     return self
 end
 
 function VariableTracker:Set(value)
-    local oldValue = self._value
-    self._value = compressAndEncrypt(value)
-    
-    for _, callback in ipairs(self._callbacks) do
-        pcall(callback, oldValue, value)
+    if self.listenEnabled then
+        for _, callback in ipairs(self._callbacks) do
+            pcall(callback, self._value, value)
+        end
     end
-    
+    self._value = value
     return self
 end
 
 function VariableTracker:Get()
-    return decryptAndDecompress(self._value)
+    return self._value
 end
 
 function VariableTracker:Update(value, fireCallback)
     fireCallback = fireCallback == nil and true or fireCallback
-    
-    local oldValue = self:Get()
-    self._value = compressAndEncrypt(value)
-    
+
     if fireCallback then
         for _, callback in ipairs(self._callbacks) do
-            pcall(callback, oldValue, value)
+            pcall(callback, self._value, value)
         end
     end
-    
+
+    self._value = value
     return self
 end
 
 function VariableTracker:EnableListen(callback)
-    table.insert(self._callbacks, callback)
+    if callback then
+        table.insert(self._callbacks, callback)
+    end
+    self._listenEnabled = true
     return self
 end
 
@@ -85,11 +68,13 @@ function VariableTracker:DisableListen(callback, shouldDestroy)
             end
         end
     end
-    
+
+    self._listenEnabled = false
+
     if shouldDestroy then
         self:Destroy()
     end
-    
+
     return self
 end
 
@@ -101,29 +86,27 @@ end
 function VariableTracker:Destroy(fireCallback)
     if fireCallback then
         for _, callback in ipairs(self._callbacks) do
-            pcall(callback, self:Get(), nil)
+            pcall(callback, self._value, nil)
         end
     end
-    
+
     env[self._uuid] = nil
     self._callbacks = {}
     self._value = nil
-    
+
     return nil
 end
 
 function VariableTracker:__tostring()
-    return tostring(self:Get())
+    return tostring(self._value)
 end
 
 function VariableTracker:__call()
-    return self:Get()
+    return self._value
 end
 
 function Pulse.fromEnvironment(key)
     return env[key]
 end
-
-
 
 return Pulse
