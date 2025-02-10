@@ -52,7 +52,6 @@ function UiLibrary.new(Title: string)
     end
 
 	local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Epic"))()
-
 Gui.Name = Gui.Name .. CaseId
 
     local self = {
@@ -62,14 +61,10 @@ Gui.Name = Gui.Name .. CaseId
 		Ui = Gui
     }
 	local executionId = HttpService:GenerateGUID(false)
-	print(executionId)
-   task.delay(1,function()
 	env.PreviousExecutions[executionId] = {
         gui = self.Ui,
         signals = self.Signals
     }
-   end)
-
     local Metatable = setmetatable(self, UiLibrary)
 
     return Metatable
