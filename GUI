@@ -193,7 +193,7 @@ G2L["12"]["Position"] = UDim2.new(0.83945, 0, -0.02853, 0);
 
 -- StarterGui.UiLibrary-.UiHolder.UIScale
 G2L["13"] = Instance.new("UIScale", G2L["2"]);
-G2L["13"]["Scale"] = 0.8;
+G2L["13"]["Scale"] = 0.6;
 
 
 
