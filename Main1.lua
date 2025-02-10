@@ -65,7 +65,7 @@ Gui.Name = Gui.Name .. CaseId
 	print(executionId)
    task.delay(1,function()
 	env.PreviousExecutions[executionId] = {
-        gui = self,
+        gui = self.Ui,
         signals = self.Signals
     }
    end)
