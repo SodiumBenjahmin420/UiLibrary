@@ -32,7 +32,7 @@ G2L["3"] = Instance.new("ImageLabel", G2L["2"]);
 G2L["3"]["BorderSizePixel"] = 0;
 G2L["3"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["3"]["ScaleType"] = Enum.ScaleType.Crop;
-G2L["3"]["ImageTransparency"] = 0.6;
+G2L["3"]["ImageTransparency"] = 0.15;
 G2L["3"]["Image"] = [[rbxassetid://119444060294500]];
 G2L["3"]["TileSize"] = UDim2.new(0.5, 0, 2, 0);
 G2L["3"]["Size"] = UDim2.new(1, 1, 1, 1);
@@ -43,12 +43,11 @@ G2L["3"]["Name"] = [[Pattern]];
 
 -- StarterGui.UiLibrary-.UiHolder.Pattern.UICorner
 G2L["4"] = Instance.new("UICorner", G2L["3"]);
-G2L["4"]["CornerRadius"] = UDim.new(0, 2);
+
 
 
 -- StarterGui.UiLibrary-.UiHolder.Pattern.UIStroke
 G2L["5"] = Instance.new("UIStroke", G2L["3"]);
-G2L["5"]["Transparency"] = 0.4;
 G2L["5"]["Thickness"] = 2;
 G2L["5"]["Color"] = Color3.fromRGB(13, 3, 19);
 
@@ -100,7 +99,7 @@ G2L["a"]["BorderSizePixel"] = 0;
 G2L["a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["a"]["ScaleType"] = Enum.ScaleType.Crop;
 G2L["a"]["ImageTransparency"] = 0.5;
-G2L["a"]["Image"] = [[rbxassetid://14942740591]];
+G2L["a"]["Image"] = [[rbxassetid://14942740976]];
 G2L["a"]["Size"] = UDim2.new(0.16055, 1, 1, 1);
 G2L["a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["a"]["BackgroundTransparency"] = 1;
@@ -184,7 +183,7 @@ G2L["12"]["SliceScale"] = 2;
 G2L["12"]["ScaleType"] = Enum.ScaleType.Crop;
 G2L["12"]["ImageTransparency"] = 0.5;
 G2L["12"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["12"]["Image"] = [[rbxassetid://14942807569]];
+G2L["12"]["Image"] = [[rbxassetid://14942807992]];
 G2L["12"]["Size"] = UDim2.new(0.16055, 1, 1, 1);
 G2L["12"]["BackgroundTransparency"] = 1;
 G2L["12"]["Name"] = [[SettingsButton]];
@@ -194,7 +193,7 @@ G2L["12"]["Position"] = UDim2.new(0.83945, 0, -0.02853, 0);
 
 -- StarterGui.UiLibrary-.UiHolder.UIScale
 G2L["13"] = Instance.new("UIScale", G2L["2"]);
-G2L["13"]["Scale"] = 0.6;
+G2L["13"]["Scale"] = 0.5;
 
 
 
