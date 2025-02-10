@@ -1,13 +1,11 @@
 -- / Global
-
 local env = getgenv()
 
 if not env.PreviousExecutions then
-	env.PreviousExecutions = {}
+    env.PreviousExecutions = {}
 end
 
 -- / Types
-
 type Function = (...any) -> any
 
 type Signal = {
@@ -18,15 +16,14 @@ type Signal = {
 }
 
 type PreviousExecution = {
-    gui:ScreenGui,
-    signals:Signal
+    gui: ScreenGui,
+    signals: {Signal}
 }
--- / Modules
 
+-- / Modules
 local Signal = loadstring(game:HttpGet("https://raw.githubusercontent.com/Quenty/NevermoreEngine/6ca66a994dba630ad9ac0e2208ac3b8b6630b053/Modules/Events/Signal.lua"))()
 
 -- / Services
-local HttpService = game:GetService("HttpService")
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 
@@ -37,43 +34,40 @@ local PreviousExecutions = env.PreviousExecutions
 
 -- / Variables
 local Bar = "|"
-local CaseId = HttpService:GenerateGUID(false), Bar, os.time(), Bar, LocalPlayer.UserId
+local CaseId = HttpService:GenerateGUID(false) .. Bar .. os.time() .. Bar .. LocalPlayer.UserId
 
 -- / Module
-
 local UiLibrary = {}
-
 UiLibrary.__index = UiLibrary
 
 function UiLibrary.new(Title: string)
-    assert(typeof(Title) ~= nil, "Argument #1 (title) of Dialogue can not be nil.")
+    assert(Title ~= nil, "Argument #1 (title) of Dialogue can not be nil.")
     if not Title then
         Title = "Default Title"
     end
 
-	local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Epic"))()
-Gui.Name = Gui.Name .. CaseId
+    local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Epic"))()
+    Gui.Name = Gui.Name .. CaseId
 
     local self = {
         Title = Title,
         Signals = {},
         Case_Id = CaseId,
-		Ui = Gui
+        Ui = Gui
     }
-	local executionId = HttpService:GenerateGUID(false)
-	env.PreviousExecutions[executionId] = {
-        gui = self.Ui,
+    
+    local executionId = HttpService:GenerateGUID(false)
+    PreviousExecutions[executionId] = {
+        gui = Gui,  -- Store the actual GUI instance
         signals = self.Signals
     }
-    local Metatable = setmetatable(self, UiLibrary)
-
-    return Metatable
-
+    
+    return setmetatable(self, UiLibrary)
 end
 
 -- / Module Environment
-local function Visible(Boolean:boolean)
-
+local function Visible(Boolean: boolean)
+    -- Implementation here
 end
 
 function UiLibrary:SetVisible(Boolean: boolean)
@@ -81,16 +75,23 @@ function UiLibrary:SetVisible(Boolean: boolean)
 end
 
 env.Cleanup = function()
-    for ExecutionId, Previous_Execution:PreviousExecution in PreviousExecutions do
-		print("cleaning up", ExecutionId)
-		print(ExecutionId.gui)
-        for _, Signal:Signal in ipairs(Previous_Execution.signals) do
-            Signal:Destroy()
+    for executionId, previousExecution in pairs(PreviousExecutions) do
+        print("Cleaning up", executionId)
+        if previousExecution.gui then
+            print("GUI found:", previousExecution.gui)
+            previousExecution.gui:Destroy()
+        else
+            print("No GUI found for execution", executionId)
         end
-		PreviousExecutions[ExecutionId] = nil
+        
+        if previousExecution.signals then
+            for _, signal in ipairs(previousExecution.signals) do
+                signal:Destroy()
+            end
+        end
+        
+        PreviousExecutions[executionId] = nil
     end
 end
-env.Cleanup()
-
 
 return UiLibrary
