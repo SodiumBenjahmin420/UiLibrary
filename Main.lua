@@ -63,10 +63,12 @@ Gui.Name = Gui.Name .. CaseId
     }
 	local executionId = HttpService:GenerateGUID(false)
 	print(executionId)
-    env.PreviousExecutions[executionId] = {
+   task.delay(1,function()
+	env.PreviousExecutions[executionId] = {
         gui = self,
         signals = self.Signals
     }
+   end)
 
     local Metatable = setmetatable(self, UiLibrary)
 
@@ -86,10 +88,14 @@ end
 env.Cleanup = function()
     for ExecutionId, Previous_Execution:PreviousExecution in PreviousExecutions do
 		print("cleaning up", ExecutionId)
+		Previous_Execution.gui:Destroy()
         for _, Signal:Signal in ipairs(Previous_Execution.signals) do
             Signal:Destroy()
         end
+		PreviousExecutions[ExecutionId] = nil
     end
 end
+env.Cleanup()
+
 
 return UiLibrary
