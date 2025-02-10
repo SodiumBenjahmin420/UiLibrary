@@ -46,7 +46,7 @@ function UiLibrary.new(Title: string)
         Title = "Default Title"
     end
 
-    local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Epic"))()
+    local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/GUI"))()
     Gui.Name = Gui.Name .. CaseId
 
     local self = {
@@ -58,7 +58,7 @@ function UiLibrary.new(Title: string)
     
     local executionId = HttpService:GenerateGUID(false)
     PreviousExecutions[executionId] = {
-        gui = Gui,  -- Store the actual GUI instance
+        gui = Gui,
         signals = self.Signals
     }
     
