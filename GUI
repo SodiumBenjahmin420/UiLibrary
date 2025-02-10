@@ -42,7 +42,7 @@ G2L["3"]["Name"] = [[Pattern]];
 
 -- StarterGui.UiLibrary-.UiHolder.Pattern.UICorner
 G2L["4"] = Instance.new("UICorner", G2L["3"]);
-G2L["4"]["CornerRadius"] = UDim.new(0, 2);
+G2L["4"]["CornerRadius"] = UDim.new(0, 9);
 
 
 -- StarterGui.UiLibrary-.UiHolder.Pattern.UIStroke
