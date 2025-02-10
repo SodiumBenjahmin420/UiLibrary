@@ -83,7 +83,7 @@ end
 env.Cleanup = function()
     for ExecutionId, Previous_Execution:PreviousExecution in PreviousExecutions do
 		print("cleaning up", ExecutionId)
-		Previous_Execution.gui:Destroy()
+		print(ExecutionId.gui)
         for _, Signal:Signal in ipairs(Previous_Execution.signals) do
             Signal:Destroy()
         end
