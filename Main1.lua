@@ -93,5 +93,6 @@ env.Cleanup = function()
         PreviousExecutions[executionId] = nil
     end
 end
+env.Cleanup()
 
 return UiLibrary
