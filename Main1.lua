@@ -46,7 +46,6 @@ local UiLibrary = {}
 UiLibrary.__index = UiLibrary
 
 function UiLibrary.new(Title: string)
-    assert(Title ~= nil, "Argument #1 (title) of Dialogue can not be nil.")
     if not Title then
         Title = "Default Title"
     end
