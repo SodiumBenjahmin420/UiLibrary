@@ -34,11 +34,10 @@ local LocalPlayer: Player = Players.LocalPlayer
 local PlayerGui: PlayerGui = LocalPlayer.PlayerGui
 local PreviousExecutions = env.PreviousExecutions
 local KeyCode = Enum.KeyCode
-local GenerateGUID = HttpService:GenerateGUID()
 
 -- / Variables
 local Bar = "|"
-local CaseId = GenerateGUID(false) .. Bar .. os.time() .. Bar .. LocalPlayer.UserId
+local CaseId = HttpService:GenerateGUID(false) .. Bar .. os.time() .. Bar .. LocalPlayer.UserId
 local Default_Keybind = KeyCode.Space
 local Default_ModifierBind = KeyCode.LeftControl
 
@@ -66,7 +65,7 @@ function UiLibrary.new(Title: string)
         CanvasGroup = Group,
     }
     
-    local executionId = GenerateGUID(false)
+    local executionId = HttpService:GenerateGUID(false)
     PreviousExecutions[executionId] = {
         gui = Gui,
         signals = self.Signals
