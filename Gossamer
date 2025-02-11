@@ -1,0 +1,111 @@
+local Maid = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Maid"))() 
+local Brio = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Brio"))() 
+
+local module = {}
+
+local Log = { unknownTypes = {}, warnings = 0 }
+
+local function calculateTransparency(orig, factor)
+	return orig + (1 - orig) * factor
+end
+
+local function set(inst: Instance, prop: string, factor: number)
+	if inst:GetAttribute(`CG_{prop}`) then
+		inst[prop] = calculateTransparency(inst:GetAttribute(`CG_{prop}`), factor)
+	end
+end
+
+local function handleInstance(instance: Instance, factor: number, doStrokes: boolean)
+	if not instance:IsA("GuiObject") then
+		Log.unknownTypes[instance.ClassName] = (Log.unknownTypes[instance.ClassName] or 0) + 1
+		return
+	end
+
+	set(instance, 'BackgroundTransparency', factor)
+
+	for _, child in ipairs(instance:GetChildren()) do
+		if child:IsA("UIStroke") then
+			set(child, 'Transparency', factor)
+		end
+	end
+
+	if instance:IsA("TextLabel") or instance:IsA("TextButton") or instance:IsA("TextBox") then
+		set(instance, 'TextTransparency', factor)
+		if doStrokes then set(instance, 'TextStrokeTransparency', factor) end
+	elseif instance:IsA("ImageButton") or instance:IsA("ImageLabel") then
+		set(instance, 'ImageTransparency', factor)
+	end
+end
+
+local function createValueBrio(parent: Instance, initialValue: number)
+	local numberVal = Instance.new("NumberValue")
+	numberVal.Name = "CanvasGroup"
+	numberVal.Value = initialValue
+	numberVal.Parent = parent
+
+	local brio = Brio.new(numberVal)
+
+	numberVal.Destroying:Connect(function()
+		brio:Kill()
+	end)
+
+	return brio
+end
+
+function module:Create(parent, value, bool)
+	local maid = Maid.new()
+	local valueBrio = createValueBrio(parent, value)
+
+	maid:GiveTask(function()
+		valueBrio:Kill()
+	end)
+
+	local numberVal = valueBrio:GetValue()
+
+	local function processDescendants(callback: (Instance) -> nil)
+		local function process(inst)
+			if not valueBrio:IsDead() then
+				callback(inst)
+			end
+		end
+
+		process(parent)
+		for _, child in ipairs(parent:GetDescendants()) do
+			process(child)
+		end
+	end
+
+	processDescendants(function(inst)
+		if inst:IsA("GuiObject") then
+			inst:SetAttribute("CG_BackgroundTransparency", inst.BackgroundTransparency)
+			if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
+				inst:SetAttribute("CG_TextTransparency", inst.TextTransparency)
+				inst:SetAttribute("CG_TextStrokeTransparency", inst.TextStrokeTransparency)
+			elseif inst:IsA("ImageButton") or inst:IsA("ImageLabel") then
+				inst:SetAttribute("CG_ImageTransparency", inst.ImageTransparency)
+			end
+		elseif inst:IsA("UIStroke") then
+			inst:SetAttribute("CG_Transparency", inst.Transparency)
+		end
+	end)
+
+	local function updateAll()
+		if valueBrio:IsDead() then return end
+		processDescendants(function(inst)
+			handleInstance(inst, numberVal.Value, bool)
+		end)
+	end
+
+	maid:GiveTask(numberVal:GetPropertyChangedSignal("Value"):Connect(updateAll))
+	maid:GiveTask(parent.DescendantAdded:Connect(function(inst)
+		if not valueBrio:IsDead() and (inst:IsA("GuiObject") or inst:IsA("UIStroke")) then
+			task.defer(updateAll)
+		end
+	end))
+
+	updateAll()
+
+	return numberVal, Log, maid, valueBrio
+end
+
+return module
