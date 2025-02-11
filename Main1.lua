@@ -22,6 +22,8 @@ type PreviousExecution = {
 
 -- / Modules
 local Signal = loadstring(game:HttpGet("https://raw.githubusercontent.com/Quenty/NevermoreEngine/6ca66a994dba630ad9ac0e2208ac3b8b6630b053/Modules/Events/Signal.lua"))()
+local Gossamer = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Gossamer"))()
+
 
 -- / Services
 local HttpService = game:GetService("HttpService")
@@ -31,10 +33,14 @@ local Players = game:GetService("Players")
 local LocalPlayer: Player = Players.LocalPlayer
 local PlayerGui: PlayerGui = LocalPlayer.PlayerGui
 local PreviousExecutions = env.PreviousExecutions
+local KeyCode = Enum.KeyCode
+local GenerateGUID = HttpService:GenerateGUID()
 
 -- / Variables
 local Bar = "|"
-local CaseId = HttpService:GenerateGUID(false) .. Bar .. os.time() .. Bar .. LocalPlayer.UserId
+local CaseId = GenerateGUID(false) .. Bar .. os.time() .. Bar .. LocalPlayer.UserId
+local Default_Keybind = KeyCode.Space
+local Default_ModifierBind = KeyCode.LeftControl
 
 -- / Module
 local UiLibrary = {}
@@ -48,15 +54,19 @@ function UiLibrary.new(Title: string)
 
     local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/GUI"))()
     Gui.Name = Gui.Name .. CaseId
+    local Group = Gossamer:Create(Gui.UiHolder,1,true)
 
     local self = {
         Title = Title,
         Signals = {},
         Case_Id = CaseId,
-        Ui = Gui
+        Ui = Gui,
+        Keybind = Default_Keybind,
+        ModifierBind = Default_ModifierBind,
+        CanvasGroup = Group,
     }
     
-    local executionId = HttpService:GenerateGUID(false)
+    local executionId = GenerateGUID(false)
     PreviousExecutions[executionId] = {
         gui = Gui,
         signals = self.Signals
@@ -66,12 +76,25 @@ function UiLibrary.new(Title: string)
 end
 
 -- / Module Environment
-local function Visible(Boolean: boolean)
-    -- Implementation here
+
+function UiLibrary:SetVisible()
+    self.Ui.Enabled = not self.Ui.Enabled
 end
 
-function UiLibrary:SetVisible(Boolean: boolean)
-    Visible(Boolean)
+function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
+    self.Keybind = Keybind or self.Keybind
+    self.ModifierBind = ModifierBind or self.ModifierBind
+end
+
+function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (ex. if true set to false if nil case)
+    local ToggleSignal:Signal = Signal.new
+
+    table.insert(self.Signals,ToggleSignal)
+
+    ToggleSignal:Connect(function()
+        
+    end)
+
 end
 
 env.Cleanup = function()
