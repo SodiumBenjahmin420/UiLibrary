@@ -98,7 +98,7 @@ function UiLibrary:SetToggleFunction(Callback: Function)
             DefaultToggle(self.Ui)
         end)
     end
-
+    print("okei..")
 end
 
 
