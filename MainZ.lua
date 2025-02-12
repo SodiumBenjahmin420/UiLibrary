@@ -6,7 +6,12 @@ env.GlobalActive = false
 if not env.PreviousExecutions then
     env.PreviousExecutions = {}
 end
-
+if not env.InputConnections then
+    env.InputConnections = {
+        inputBegan = nil,
+        inputEnded = nil
+    }
+end
 -- / Types
 type Function = (...any) -> any
 
