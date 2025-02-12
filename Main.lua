@@ -53,7 +53,6 @@ local UiLibrary = {}
 UiLibrary.__index = UiLibrary
 
 function UiLibrary.new(Title: string)
-    -- Clean up previous executions before creating new instance
     if env.Cleanup then
         env.Cleanup()
     end
@@ -85,6 +84,8 @@ function UiLibrary.new(Title: string)
         signals = self.Signals,
         connections = self.Connections
     }
+
+    UpdateTitle()
 
     self.Signals.ToggleSignal:Connect(function(Boolean:boolean)
         DetermineToggle(Boolean)
@@ -164,6 +165,10 @@ function DetermineToggle(Boolean:boolean)
     end
 end
 
+function UpdateTitle()
+    LibraryInstance.UiHolder.TitleHolder.Title.Text = LibraryInstance.Title
+end
+
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
     Active_Keybind = Keybind or Default_Keybind
     Active_ModifierBind = ModifierBind or Default_ModifierBind
@@ -171,6 +176,11 @@ end
 
 function UiLibrary:Toggle(Boolean:boolean)
     self.Signals.ToggleSignal:Fire(Boolean or not env.GlobalActive)
+end
+
+function UiLibrary:ChangeTitle(Title:string)
+    LibraryInstance.Title = Title
+    UpdateTitle()
 end
 
 function handleJumpAction(actionName, inputState, inputObject)
