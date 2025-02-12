@@ -63,7 +63,7 @@ function UiLibrary.new(Title: string)
 
     local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/GUI"))()
     Gui.Name = Gui.Name .. CaseId
-    
+    Gui.UiHolder.TitleHolder.Title.Text = Title
     local self = {
         Title = Title,
         Signals = {
@@ -84,8 +84,6 @@ function UiLibrary.new(Title: string)
         signals = self.Signals,
         connections = self.Connections
     }
-
-    UpdateTitle()
 
     self.Signals.ToggleSignal:Connect(function(Boolean:boolean)
         DetermineToggle(Boolean)
