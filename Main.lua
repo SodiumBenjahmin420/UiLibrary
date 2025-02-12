@@ -146,14 +146,18 @@ function DetermineToggle(Boolean:boolean)
     if typeof(Boolean) == "boolean" then
         if Boolean then
             DefaultToggle()
+            env.GlobalActive = true
         else
             DefaultUntoggle()
+            env.GlobalActive = false
         end
     else
          if env.GlobalActive then
             DefaultToggle()
+            env.GlobalActive = true
          else
             DefaultUntoggle()
+            env.GlobalActive = false
          end
     end
 end
@@ -165,7 +169,6 @@ end
 
 function UiLibrary:Toggle(Boolean:boolean)
     self.Signals.ToggleSignal:Fire(Boolean or not env.GlobalActive)
-    env.GlobalActive = not env.GlobalActive
 end
 
 function handleJumpAction(actionName, inputState, inputObject)
