@@ -3,6 +3,8 @@
 -- / Global
 local env = getgenv()
 
+env.GlobalActive = false
+
 if not env.PreviousExecutions then
     env.PreviousExecutions = {}
 end
@@ -29,6 +31,7 @@ local Gossamer = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sodi
 -- / Services
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
 -- / Environment
 local LocalPlayer: Player = Players.LocalPlayer
 local PreviousExecutions = env.PreviousExecutions
@@ -39,6 +42,8 @@ local Bar = "|"
 local CaseId = HttpService:GenerateGUID(false) .. Bar .. os.time() .. Bar .. LocalPlayer.UserId
 local Default_Keybind = KeyCode.Space
 local Default_ModifierBind = KeyCode.LeftControl
+local Active_Keybind = Default_Keybind
+local Active_ModifierBind = Default_ModifierBind
 
 -- / Module
 local UiLibrary = {}
@@ -60,8 +65,6 @@ function UiLibrary.new(Title: string)
         },
         Case_Id = CaseId,
         Ui = Gui,
-        Keybind = Default_Keybind,
-        ModifierBind = Default_ModifierBind,
         CanvasGroup = Group,
     }
     
@@ -80,27 +83,42 @@ function UiLibrary:AnimateVisible()
     
 end
 
+local function DefaultToggle(Gui)
+    
+    local MousePos = UserInputService:GetMouseLocation()
+
+    print(MousePos)
+
+end
+
 function UiLibrary:SetToggleFunction(Callback: Function)
-    print("no")
     if Callback then
         self.Signals.ToggleSignal:Connect(Callback)
-        print("yes there is a callback")
-        return
+    else
+        self.Signals.ToggleSignal:Connect(DefaultToggle(self.Ui))
     end
-
-    print("yes")
-
 
 end
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
-    self.Keybind = Keybind or self.Keybind
-    self.ModifierBind = ModifierBind or self.ModifierBind
+    Active_Keybind = Keybind or Default_Keybind
+    Active_ModifierBind = ModifierBind or Default_ModifierBind
 end
 
 function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (ex. if true set to false if nil case)
-    self.Signals.ToggleSignal:Fire(Boolean or nil)
+    self.Signals.ToggleSignal:Fire(Boolean or not env.GlobalActive)
 end
+
+UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+    if gameProcessedEvent then return end
+
+    if input.KeyCode == Active_Keybind and UserInputService:IsKeyDown(Active_ModifierBind)then
+        
+        UiLibrary:Toggle()
+
+    end
+
+end)
 
 env.Cleanup = function()
     for executionId, previousExecution in pairs(PreviousExecutions) do
