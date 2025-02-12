@@ -95,7 +95,9 @@ function UiLibrary:SetToggleFunction(Callback: Function)
     if Callback then
         self.Signals.ToggleSignal:Connect(Callback)
     else
-        self.Signals.ToggleSignal:Connect(DefaultToggle(self.Ui))
+        self.Signals.ToggleSignal:Connect(function()
+            DefaultToggle(self.Ui)
+        end)
     end
 
 end
