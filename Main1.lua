@@ -135,6 +135,7 @@ env.Cleanup = function()
         
         if previousExecution.signals then
             for _, signal in ipairs(previousExecution.signals) do
+                print("Destroying")
                 signal:Destroy()
             end
         end
