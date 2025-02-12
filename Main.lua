@@ -67,10 +67,17 @@ function UiLibrary.new(Title: string)
         CanvasGroup = Gossamer:Create(Gui.UiHolder,1,true),
     }
     local executionId = HttpService:GenerateGUID(false)
+    print("Creating new execution:", executionId)
+    print("Number of signals:", #self.Signals)
+    
     PreviousExecutions[executionId] = {
         gui = Gui,
         signals = self.Signals
     }
+    
+    -- Print the current state of PreviousExecutions
+    print("Current executions:", HttpService:JSONEncode(table.getn(PreviousExecutions)))
+
 
     self.Signals.ToggleSignal:Connect(function()
         DefaultToggle(self.Ui)
@@ -135,24 +142,35 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 end)
 
 env.Cleanup = function()
+    ContextActionService:UnbindAction("BlockDefaultActions")
+    
+    print("Starting cleanup, number of previous executions:", table.getn(PreviousExecutions))
+    
     for executionId, previousExecution in pairs(PreviousExecutions) do
-        print("Cleaning up", executionId)
+        print("Cleaning up execution:", executionId)
+        
         if previousExecution.gui then
-            print("GUI found:", previousExecution.gui)
+            print("GUI found:", previousExecution.gui.Name)
             previousExecution.gui:Destroy()
         else
             print("No GUI found for execution", executionId)
         end
         
         if previousExecution.signals then
-            for _, signal in ipairs(previousExecution.signals) do
-                print("Destroying")
+            print("Number of signals to destroy:", table.getn(previousExecution.signals))
+            for signalName, signal in pairs(previousExecution.signals) do
+                print("Destroying signal:", signalName)
                 signal:Destroy()
+                print("Signal destroyed")
             end
+        else
+            print("No signals found for execution", executionId)
         end
         
         PreviousExecutions[executionId] = nil
     end
+    
+    print("Cleanup complete, remaining executions:", table.getn(PreviousExecutions))
 end
 env.Cleanup()
 
