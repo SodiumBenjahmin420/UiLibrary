@@ -93,7 +93,7 @@ end
 
 function DefaultToggle(Gui)
     
-    local MousePos = UserInputService:GetMouseLocation()
+    local MousePos = UDim2.fromOffset(UserInputService:GetMouseLocation().X,UserInputService:GetMouseLocation().Y)
 
     print(MousePos)
 
@@ -121,7 +121,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
-        -- When modifier is pressed, disable jumping and set up toggle handler
+        -- when modifier is pressed, disable jumping and set up toggle handler
         ContextActionService:BindAction(
             "BlockJumpAndToggle",
             handleJumpAction,
@@ -135,7 +135,7 @@ UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
-        -- When modifier is released, restore default jump behavior
+        -- when modifier is released, restore default jump behavior
         ContextActionService:UnbindAction("BlockJumpAndToggle")
     end
 end)
