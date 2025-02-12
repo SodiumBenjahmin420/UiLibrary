@@ -57,11 +57,10 @@ function UiLibrary.new(Title: string)
     local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/GUI"))()
     Gui.Name = Gui.Name .. CaseId
     local Group = Gossamer:Create(Gui.UiHolder,1,true)
-    local Signal_For_Toggle = Signal.new()
     local self = {
         Title = Title,
         Signals = {
-            ToggleSignal = Signal_For_Toggle,
+            ToggleSignal = Signal.new(),
         },
         Case_Id = CaseId,
         Ui = Gui,
