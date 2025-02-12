@@ -47,6 +47,8 @@ local Default_Keybind = KeyCode.Space
 local Default_ModifierBind = KeyCode.LeftControl
 local Active_Keybind = Default_Keybind
 local Active_ModifierBind = Default_ModifierBind
+local FADE_DAMPENER = 1
+local FADE_FREQUENCY = 1
 
 -- / Module
 local UiLibrary = {}
@@ -124,9 +126,9 @@ function DefaultToggle()
     local MousePos = UserInputService:GetMouseLocation()
     local MainFrame:Frame = Gui.UiHolder
 
-    MainFrame.Position = UDim2.fromOffset(MousePos.X,MousePos.Y)
+    MainFrame.Position = UDim2.fromOffset(MousePos.X - 5,MousePos.Y)
     Gui.Enabled = true
-     Spr.target(CanvasGroup,1,4,{Value = 0})
+     Spr.target(CanvasGroup,FADE_DAMPENER,FADE_FREQUENCY,{Value = 0})
 
 
 end
@@ -134,7 +136,7 @@ end
 function DefaultUntoggle()
     local Gui = LibraryInstance.Ui
     local CanvasGroup = LibraryInstance.CanvasGroup
-     Spr.target(CanvasGroup,1,4,{Value = 1})
+     Spr.target(CanvasGroup,FADE_DAMPENER,FADE_FREQUENCY,{Value = 1})
      Spr.completed(CanvasGroup,function()
         if CanvasGroup.Value == 1 then
             Gui.Enabled = false
