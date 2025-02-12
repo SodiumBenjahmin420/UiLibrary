@@ -88,6 +88,7 @@ local function DefaultToggle(Gui)
 end
 
 function UiLibrary:SetToggleFunction(Callback: Function)
+    print("Doing")
     if Callback then
         self.Signals.ToggleSignal:Connect(Callback)
     else
