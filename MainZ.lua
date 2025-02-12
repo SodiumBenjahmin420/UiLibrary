@@ -122,6 +122,9 @@ end
 
 function DefaultToggle(Gui)
     local MousePos = UserInputService:GetMouseLocation()
+    local MainFrame:Frame = Gui.UiHolder
+
+    MainFrame.Position = UDim2.fromOffset(MousePos.X,MousePos.Y)
     print(MousePos)
 end
 
