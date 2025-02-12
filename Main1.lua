@@ -66,7 +66,7 @@ function UiLibrary.new(Title: string)
         Ui = Gui,
         CanvasGroup = Group,
     }
-    
+    print(self.Signals)
     local executionId = HttpService:GenerateGUID(false)
     PreviousExecutions[executionId] = {
         gui = Gui,
