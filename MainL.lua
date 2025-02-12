@@ -121,13 +121,15 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
-        -- when modifier is pressed, disable jumping and set up toggle handler
-        ContextActionService:BindAction(
-            "BlockJumpAndToggle",
-            handleJumpAction,
-            false,
-            Active_Keybind
-        )
+        if not env.GlobalActive then
+            env.GlobalActive = true
+            ContextActionService:BindAction(
+                "BlockJumpAndToggle",
+                handleJumpAction,
+                false,
+                Active_Keybind
+            )
+        end
     end
 end)
 
@@ -135,14 +137,14 @@ UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
-        -- when modifier is released, restore default jump behavior
         ContextActionService:UnbindAction("BlockJumpAndToggle")
     end
 end)
 
+
 env.Cleanup = function()
     ContextActionService:UnbindAction("BlockJumpAndToggle")
-    
+    env.GlobalActive = false
     print("Starting cleanup, number of previous executions:", table.getn(PreviousExecutions))
     
     for executionId, previousExecution in pairs(PreviousExecutions) do
