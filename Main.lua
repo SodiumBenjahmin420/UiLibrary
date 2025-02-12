@@ -170,7 +170,9 @@ end
 
 function handleJumpAction(actionName, inputState, inputObject)
     if inputState == Enum.UserInputState.Begin then
-        LibraryInstance:Toggle()
+        if not env.GlobalActive then
+            LibraryInstance:Toggle(true)
+        end
     end
     return Enum.ContextActionResult.Sink
 end
