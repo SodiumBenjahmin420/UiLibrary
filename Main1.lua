@@ -1,3 +1,5 @@
+--!nocheck
+
 -- / Global
 local env = getgenv()
 
@@ -24,14 +26,11 @@ type PreviousExecution = {
 local Signal = loadstring(game:HttpGet("https://raw.githubusercontent.com/Quenty/NevermoreEngine/6ca66a994dba630ad9ac0e2208ac3b8b6630b053/Modules/Events/Signal.lua"))()
 local Gossamer = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Gossamer"))()
 
-
 -- / Services
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
-
 -- / Environment
 local LocalPlayer: Player = Players.LocalPlayer
-local PlayerGui: PlayerGui = LocalPlayer.PlayerGui
 local PreviousExecutions = env.PreviousExecutions
 local KeyCode = Enum.KeyCode
 
@@ -85,6 +84,7 @@ function UiLibrary:SetToggleFunction(Callback: Function)
     print("no")
     if Callback then
         self.Signals.ToggleSignal:Connect(Callback)
+        print("yes there is a callback")
     end
 
     print("yes")
