@@ -137,7 +137,7 @@ function DefaultUntoggle()
     local CanvasGroup = LibraryInstance.CanvasGroup
      Spr.target(CanvasGroup,1,4,{Value = 1})
      Spr.completed(CanvasGroup,function()
-        if CanvasGroup.Value > 0.01 then
+        if CanvasGroup.Value == 1 then
             Gui.Enabled = false
         end
      end)
