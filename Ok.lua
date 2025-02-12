@@ -166,7 +166,7 @@ function DetermineToggle(Boolean:boolean)
 end
 
 function UpdateTitle()
-    LibraryInstance.UiHolder.TitleHolder.Title.Text = LibraryInstance.Title
+    LibraryInstance.Ui.UiHolder.TitleHolder.Title.Text = LibraryInstance.Title
 end
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
