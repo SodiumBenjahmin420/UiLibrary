@@ -1,4 +1,4 @@
--- / Global
+-- / Global check
 local env = getgenv()
 
 env.GlobalActive = false
@@ -34,6 +34,7 @@ local UserInputService = game:GetService("UserInputService")
 local LocalPlayer: Player = Players.LocalPlayer
 local PreviousExecutions = env.PreviousExecutions
 local KeyCode = Enum.KeyCode
+local LibraryInstance = nil
 
 -- / Variables
 local Bar = "|"
@@ -73,10 +74,10 @@ function UiLibrary.new(Title: string)
     self.Signals.ToggleSignal:Connect(function()
         DefaultToggle(self.Ui)
     end)
-    
-    local Metatable = setmetatable(self, UiLibrary)
 
-    return Metatable
+    LibraryInstance = setmetatable(self, UiLibrary)
+
+    return LibraryInstance
 end
 
 -- / Module Environment
@@ -109,7 +110,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 
     if input.KeyCode == Active_Keybind and UserInputService:IsKeyDown(Active_ModifierBind)then
         
-        UiLibrary:Toggle()
+        LibraryInstance:Toggle()
 
     end
 
