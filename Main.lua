@@ -69,6 +69,10 @@ function UiLibrary.new(Title: string)
         gui = Gui,
         signals = self.Signals
     }
+
+    self.Signals.ToggleSignal:Connect(function()
+        DefaultToggle(self.Ui)
+    end)
     
     return setmetatable(self, UiLibrary)
 end
@@ -79,7 +83,7 @@ function UiLibrary:AnimateVisible()
     
 end
 
-local function DefaultToggle(Gui)
+function DefaultToggle(Gui)
     
     local MousePos = UserInputService:GetMouseLocation()
 
@@ -87,19 +91,6 @@ local function DefaultToggle(Gui)
 
 end
 
-function UiLibrary:SetToggleFunction(Callback: Function)
-    print("Doing")
-    if Callback then
-        self.Signals.ToggleSignal:Connect(Callback)
-        print("lE WUT")
-    else
-        self.Signals.ToggleSignal:Connect(function()
-            print("Done")
-            DefaultToggle(self.Ui)
-        end)
-    end
-    print("okei..")
-end
 
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
