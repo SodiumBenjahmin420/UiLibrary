@@ -110,11 +110,22 @@ function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (e
     self.Signals.ToggleSignal:Fire(Boolean or not env.GlobalActive)
 end
 
+local function handleJumpAction(actionName, inputState, inputObject)
+    return Enum.ContextActionResult.Sink
+end
+
 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
-    if input.KeyCode == Active_Keybind then
-        ContextActionService:BindAction("jumpAction",DefaultToggle(LibraryInstance.Ui))
+    if input.KeyCode == Active_ModifierBind then
+        ContextActionService:BindAction(
+            "BlockJump",
+            handleJumpAction,
+            false,
+            Enum.KeyCode.Space
+        )
+    elseif input.KeyCode == Active_Keybind and UserInputService:IsKeyDown(Active_ModifierBind) then
+        LibraryInstance:Toggle()
     end
 end)
 
