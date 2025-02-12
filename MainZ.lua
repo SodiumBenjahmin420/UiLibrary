@@ -121,15 +121,12 @@ local BeganConnection = UserInputService.InputBegan:Connect(function(input, game
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
-        if not env.GlobalActive then
-
             ContextActionService:BindAction(
                 "BlockJumpAndToggle",
                 handleJumpAction,
                 false,
                 Active_Keybind
             )
-        end
     end
 end)
 
