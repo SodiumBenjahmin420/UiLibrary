@@ -141,8 +141,10 @@ end)
 
 env.Cleanup = function()
     ContextActionService:UnbindAction("BlockJumpAndToggle")
-    BeganConnection:Disconnect()
+    task.delay(1,function()
+        BeganConnection:Disconnect()
     EndedConnection:Disconnect()
+    end)
     print("Starting cleanup, number of previous executions:", table.getn(PreviousExecutions))
     
     for executionId, previousExecution in pairs(PreviousExecutions) do
