@@ -19,7 +19,8 @@ type Signal = {
 
 type PreviousExecution = {
     gui: ScreenGui,
-    signals: {Signal}
+    signals: {Signal},
+    connections: {RBXScriptConnection}  -- New field to track connections
 }
 
 -- / Modules
@@ -31,6 +32,7 @@ local ContextActionService = game:GetService("ContextActionService")
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
+
 -- / Environment
 local LocalPlayer: Player = Players.LocalPlayer
 local PreviousExecutions = env.PreviousExecutions
@@ -50,12 +52,18 @@ local UiLibrary = {}
 UiLibrary.__index = UiLibrary
 
 function UiLibrary.new(Title: string)
+    -- Clean up previous executions before creating new instance
+    if env.Cleanup then
+        env.Cleanup()
+    end
+
     if not Title then
         Title = "Default Title"
     end
 
     local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/GUI"))()
     Gui.Name = Gui.Name .. CaseId
+    
     local self = {
         Title = Title,
         Signals = {
@@ -64,107 +72,104 @@ function UiLibrary.new(Title: string)
         Case_Id = CaseId,
         Ui = Gui,
         CanvasGroup = Gossamer:Create(Gui.UiHolder,1,true),
+        Connections = {}  -- Track connections here
     }
+    
     local executionId = HttpService:GenerateGUID(false)
     print("Creating new execution:", executionId)
-    print("Number of signals:", #self.Signals)
     
+    -- Store both signals and connections in PreviousExecutions
     PreviousExecutions[executionId] = {
         gui = Gui,
-        signals = self.Signals
+        signals = self.Signals,
+        connections = self.Connections
     }
-    
 
     self.Signals.ToggleSignal:Connect(function()
         DefaultToggle(self.Ui)
     end)
 
-
-    LibraryInstance = setmetatable(self, UiLibrary)
-
-    return LibraryInstance
-end
-
--- / Module Environment
-
-function UiLibrary:AnimateVisible()
-    
-end
-
-function DefaultToggle(Gui)
-    
-    local MousePos = UserInputService:GetMouseLocation()
-
-    print(MousePos)
-
-end
-
-
-
-function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
-    Active_Keybind = Keybind or Default_Keybind
-    Active_ModifierBind = ModifierBind or Default_ModifierBind
-end
-
-function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (ex. if true set to false if nil case)
-    self.Signals.ToggleSignal:Fire(Boolean or not env.GlobalActive)
-end
-
-local function handleJumpAction(actionName, inputState, inputObject)
-    if inputState == Enum.UserInputState.Begin then
-        LibraryInstance:Toggle()
-    end
-    return Enum.ContextActionResult.Sink
-end
-
-local BeganConnection = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-    if gameProcessedEvent then return end
-
-    if input.KeyCode == Active_ModifierBind then
+    -- Store input connections
+    self.Connections.began = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+        if gameProcessedEvent then return end
+        
+        if input.KeyCode == Active_ModifierBind then
             ContextActionService:BindAction(
                 "BlockJumpAndToggle",
                 handleJumpAction,
                 false,
                 Active_Keybind
             )
+        end
+    end)
+
+    self.Connections.ended = UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
+        if gameProcessedEvent then return end
+        
+        if input.KeyCode == Active_ModifierBind then
+            ContextActionService:UnbindAction("BlockJumpAndToggle")
+        end
+    end)
+
+    LibraryInstance = setmetatable(self, UiLibrary)
+    return LibraryInstance
+end
+
+-- / Module Environment
+function UiLibrary:AnimateVisible()
+    -- Implementation here
+end
+
+function DefaultToggle(Gui)
+    local MousePos = UserInputService:GetMouseLocation()
+    print(MousePos)
+end
+
+function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
+    Active_Keybind = Keybind or Default_Keybind
+    Active_ModifierBind = ModifierBind or Default_ModifierBind
+end
+
+function UiLibrary:Toggle(Boolean:boolean)
+    self.Signals.ToggleSignal:Fire(Boolean or not env.GlobalActive)
+end
+
+function handleJumpAction(actionName, inputState, inputObject)
+    if inputState == Enum.UserInputState.Begin then
+        LibraryInstance:Toggle()
     end
-end)
+    return Enum.ContextActionResult.Sink
+end
 
-local EndedConnection = UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
-    if gameProcessedEvent then return end
-
-    if input.KeyCode == Active_ModifierBind then
-        ContextActionService:UnbindAction("BlockJumpAndToggle")
-    end
-end)
-
-
+-- Cleanup function
 env.Cleanup = function()
     ContextActionService:UnbindAction("BlockJumpAndToggle")
-    task.delay(0.01,function()
-        BeganConnection:Disconnect()
-    EndedConnection:Disconnect()
-    end)
-    print("Starting cleanup, number of previous executions:", table.getn(PreviousExecutions))
     
     for executionId, previousExecution in pairs(PreviousExecutions) do
         print("Cleaning up execution:", executionId)
         
-        if previousExecution.gui then
-            print("GUI found:", previousExecution.gui.Name)
-            previousExecution.gui:Destroy()
-        else
-            print("No GUI found for execution", executionId)
+        -- Clean up connections
+        if previousExecution.connections then
+            for name, connection in pairs(previousExecution.connections) do
+                if typeof(connection) == "RBXScriptConnection" and connection.Connected then
+                    connection:Disconnect()
+                    print("Disconnected connection:", name)
+                end
+            end
         end
         
+        -- Clean up GUI
+        if previousExecution.gui then
+            previousExecution.gui:Destroy()
+            print("Destroyed GUI:", previousExecution.gui.Name)
+        end
+        
+        -- Clean up signals
         if previousExecution.signals then
             for signalName, signal in pairs(previousExecution.signals) do
-                print("Destroying signal:", signalName)
                 signal:Destroy()
-                print("Signal destroyed")
+                print("Destroyed signal:", signalName)
             end
-        else
-            print("No signals found for execution", executionId)
         end
         
         PreviousExecutions[executionId] = nil
@@ -172,6 +177,5 @@ env.Cleanup = function()
     
     print("Cleanup complete, remaining executions:", table.getn(PreviousExecutions))
 end
-env.Cleanup()
 
 return UiLibrary
