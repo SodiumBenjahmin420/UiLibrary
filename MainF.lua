@@ -136,7 +136,7 @@ function DefaultUntoggle()
     local Gui = LibraryInstance.Ui
     local CanvasGroup = LibraryInstance.CanvasGroup
      Spr.target(CanvasGroup,1,4,{Value = 1})
-     Spr.Completed(CanvasGroup,function()
+     Spr.completed(CanvasGroup,function()
         Gui.Enabled = false
      end)
 
