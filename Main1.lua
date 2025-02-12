@@ -44,7 +44,6 @@ local Default_Keybind = KeyCode.Space
 local Default_ModifierBind = KeyCode.LeftControl
 local Active_Keybind = Default_Keybind
 local Active_ModifierBind = Default_ModifierBind
-local IsModifierHeld = false
 
 -- / Module
 local UiLibrary = {}
@@ -75,22 +74,11 @@ function UiLibrary.new(Title: string)
         signals = self.Signals
     }
     
-    -- Print the current state of PreviousExecutions
-    print("Current executions:", HttpService:JSONEncode(table.getn(PreviousExecutions)))
-
 
     self.Signals.ToggleSignal:Connect(function()
         DefaultToggle(self.Ui)
     end)
 
-    ContextActionService:BindAction("BlockDefaultActions", function(_, state, _)
-        if state == Enum.UserInputState.Begin then
-            IsModifierHeld = true
-        elseif state == Enum.UserInputState.End then
-            IsModifierHeld = false
-        end
-        return Enum.ContextActionResult.Sink
-    end, false, Active_ModifierBind)
 
     LibraryInstance = setmetatable(self, UiLibrary)
 
@@ -114,19 +102,8 @@ end
 
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
-    ContextActionService:UnbindAction("BlockDefaultActions")
-    
     Active_Keybind = Keybind or Default_Keybind
     Active_ModifierBind = ModifierBind or Default_ModifierBind
-    
-    ContextActionService:BindAction("BlockDefaultActions", function(_, state, _)
-        if state == Enum.UserInputState.Begin then
-            IsModifierHeld = true
-        elseif state == Enum.UserInputState.End then
-            IsModifierHeld = false
-        end
-        return Enum.ContextActionResult.Sink
-    end, false, Active_ModifierBind)
 end
 
 function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (ex. if true set to false if nil case)
@@ -136,8 +113,8 @@ end
 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
-    if input.KeyCode == Active_Keybind and IsModifierHeld then
-        LibraryInstance:Toggle()
+    if input.KeyCode == Active_Keybind then
+        ContextActionService:BindAction("jumpAction",DefaultToggle(LibraryInstance.Ui))
     end
 end)
 
@@ -157,7 +134,6 @@ env.Cleanup = function()
         end
         
         if previousExecution.signals then
-            print("Number of signals to destroy:", table.getn(previousExecution.signals))
             for signalName, signal in pairs(previousExecution.signals) do
                 print("Destroying signal:", signalName)
                 signal:Destroy()
