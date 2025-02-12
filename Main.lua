@@ -141,7 +141,7 @@ UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
 end)
 
 env.Cleanup = function()
-    ContextActionService:UnbindAction("BlockDefaultActions")
+    ContextActionService:UnbindAction("BlockJumpAndToggle")
     
     print("Starting cleanup, number of previous executions:", table.getn(PreviousExecutions))
     
