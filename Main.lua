@@ -117,12 +117,12 @@ local function handleJumpAction(actionName, inputState, inputObject)
     return Enum.ContextActionResult.Sink
 end
 
-UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+local BeganConnection = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
         if not env.GlobalActive then
-            env.GlobalActive = true
+
             ContextActionService:BindAction(
                 "BlockJumpAndToggle",
                 handleJumpAction,
@@ -133,11 +133,10 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     end
 end)
 
-UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
+local EndedConnection = UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
-        env.GlobalActive = false
         ContextActionService:UnbindAction("BlockJumpAndToggle")
     end
 end)
@@ -145,7 +144,8 @@ end)
 
 env.Cleanup = function()
     ContextActionService:UnbindAction("BlockJumpAndToggle")
-    env.GlobalActive = false
+    BeganConnection:Disconnect()
+    EndedConnection:Disconnect()
     print("Starting cleanup, number of previous executions:", table.getn(PreviousExecutions))
     
     for executionId, previousExecution in pairs(PreviousExecutions) do
