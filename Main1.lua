@@ -85,8 +85,7 @@ function UiLibrary:SetToggleFunction(Callback: Function)
     if Callback then
         self.Signals.ToggleSignal:Connect(Callback)
         print("yes there is a callback")
-    else 
-        print("LE NO CALLBECK DE FRIK")
+        return
     end
 
     print("yes")
