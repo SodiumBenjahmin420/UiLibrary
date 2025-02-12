@@ -86,7 +86,7 @@ function UiLibrary.new(Title: string)
         connections = self.Connections
     }
 
-    self.Signals.ToggleSignal:Connect(function()
+    self.Signals.ToggleSignal:Connect(function(Boolean:boolean)
         DefaultToggle(self.Ui)
     end)
 
@@ -117,9 +117,6 @@ function UiLibrary.new(Title: string)
 end
 
 -- / Module Environment
-function UiLibrary:AnimateVisible()
-    -- Implementation here
-end
 
 function DefaultToggle()
     local Gui = LibraryInstance.Ui
@@ -134,6 +131,32 @@ function DefaultToggle()
 
 end
 
+function DefaultUntoggle()
+    local Gui = LibraryInstance.Ui
+    local CanvasGroup = LibraryInstance.CanvasGroup
+     Spr.target(CanvasGroup,1,4,{Value = 1})
+     Spr.Completed(CanvasGroup,function()
+        Gui.Enabled = false
+     end)
+
+end
+
+function DetermineToggle(Boolean:boolean)
+    if typeof(Boolean) == "boolean" then
+        if Boolean then
+            DefaultToggle()
+        else
+            DefaultUntoggle()
+        end
+    else
+         if env.GlobalActive then
+            DefaultToggle()
+         else
+            DefaultUntoggle()
+         end
+    end
+end
+
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
     Active_Keybind = Keybind or Default_Keybind
     Active_ModifierBind = ModifierBind or Default_ModifierBind
@@ -141,6 +164,7 @@ end
 
 function UiLibrary:Toggle(Boolean:boolean)
     self.Signals.ToggleSignal:Fire(Boolean or not env.GlobalActive)
+    env.GlobalActive = not env.GlobalActive
 end
 
 function handleJumpAction(actionName, inputState, inputObject)
