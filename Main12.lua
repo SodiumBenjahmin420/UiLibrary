@@ -111,6 +111,9 @@ function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (e
 end
 
 local function handleJumpAction(actionName, inputState, inputObject)
+    if inputState == Enum.UserInputState.Begin then
+        LibraryInstance:Toggle()
+    end
     return Enum.ContextActionResult.Sink
 end
 
@@ -118,14 +121,22 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
+        -- When modifier is pressed, disable jumping and set up toggle handler
         ContextActionService:BindAction(
-            "BlockJump",
+            "BlockJumpAndToggle",
             handleJumpAction,
             false,
-            Enum.KeyCode.Space
+            Active_Keybind
         )
-    elseif input.KeyCode == Active_Keybind and UserInputService:IsKeyDown(Active_ModifierBind) then
-        LibraryInstance:Toggle()
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
+    if gameProcessedEvent then return end
+
+    if input.KeyCode == Active_ModifierBind then
+        -- When modifier is released, restore default jump behavior
+        ContextActionService:UnbindAction("BlockJumpAndToggle")
     end
 end)
 
