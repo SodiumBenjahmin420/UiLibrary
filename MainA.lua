@@ -87,7 +87,7 @@ function UiLibrary.new(Title: string)
     }
 
     self.Signals.ToggleSignal:Connect(function(Boolean:boolean)
-        DefaultToggle(self.Ui)
+        DetermineToggle(Boolean)
     end)
 
     -- Store input connections
@@ -109,6 +109,7 @@ function UiLibrary.new(Title: string)
         
         if input.KeyCode == Active_ModifierBind then
             ContextActionService:UnbindAction("BlockJumpAndToggle")
+            DetermineToggle(false)
         end
     end)
 
