@@ -93,7 +93,7 @@ end
 
 function DefaultToggle(Gui)
     
-    local MousePos = UDim2.fromOffset(UserInputService:GetMouseLocation().X,UserInputService:GetMouseLocation().Y)
+    local MousePos = UserInputService:GetMouseLocation()
 
     print(MousePos)
 
