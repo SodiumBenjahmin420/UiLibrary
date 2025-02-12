@@ -91,6 +91,7 @@ function UiLibrary:SetToggleFunction(Callback: Function)
     print("Doing")
     if Callback then
         self.Signals.ToggleSignal:Connect(Callback)
+        print("lE WUT")
     else
         self.Signals.ToggleSignal:Connect(function()
             print("Done")
