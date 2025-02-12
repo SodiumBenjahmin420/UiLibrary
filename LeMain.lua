@@ -137,6 +137,7 @@ UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
     if input.KeyCode == Active_ModifierBind then
+        env.GlobalActive = false
         ContextActionService:UnbindAction("BlockJumpAndToggle")
     end
 end)
