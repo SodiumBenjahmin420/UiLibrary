@@ -74,7 +74,9 @@ function UiLibrary.new(Title: string)
         DefaultToggle(self.Ui)
     end)
     
-    return setmetatable(self, UiLibrary)
+    local Metatable = setmetatable(self, UiLibrary)
+
+    return Metatable
 end
 
 -- / Module Environment
