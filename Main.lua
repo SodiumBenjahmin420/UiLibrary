@@ -26,6 +26,7 @@ type PreviousExecution = {
 -- / Modules
 local Signal = loadstring(game:HttpGet("https://raw.githubusercontent.com/Quenty/NevermoreEngine/6ca66a994dba630ad9ac0e2208ac3b8b6630b053/Modules/Events/Signal.lua"))()
 local Gossamer = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Gossamer"))()
+local Spr = loadstring(game:HttpGet("https://raw.githubusercontent.com/Fraktality/spr/refs/heads/master/spr.lua"))()
 
 -- / Services
 local ContextActionService = game:GetService("ContextActionService")
@@ -120,12 +121,17 @@ function UiLibrary:AnimateVisible()
     -- Implementation here
 end
 
-function DefaultToggle(Gui)
+function DefaultToggle()
+    local Gui = LibraryInstance.Ui
+    local CanvasGroup = LibraryInstance.CanvasGroup
     local MousePos = UserInputService:GetMouseLocation()
     local MainFrame:Frame = Gui.UiHolder
 
     MainFrame.Position = UDim2.fromOffset(MousePos.X,MousePos.Y)
-    print(MousePos)
+    Gui.Enabled = true
+     Spr.target(CanvasGroup,1,4,{Value = 0})
+
+
 end
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
