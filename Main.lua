@@ -138,7 +138,7 @@ function DefaultUntoggle()
      Spr.target(CanvasGroup,1,4,{Value = 1})
      Spr.completed(CanvasGroup,function()
         if CanvasGroup.Value > 0.01 then
-            gui.Enabled = false
+            Gui.Enabled = false
         end
      end)
 
