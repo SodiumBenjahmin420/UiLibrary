@@ -141,7 +141,7 @@ end)
 
 env.Cleanup = function()
     ContextActionService:UnbindAction("BlockJumpAndToggle")
-    task.delay(1,function()
+    task.delay(0.01,function()
         BeganConnection:Disconnect()
     EndedConnection:Disconnect()
     end)
