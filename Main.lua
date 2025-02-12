@@ -53,10 +53,12 @@ function UiLibrary.new(Title: string)
     local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/GUI"))()
     Gui.Name = Gui.Name .. CaseId
     local Group = Gossamer:Create(Gui.UiHolder,1,true)
-
+    local Signal_For_Toggle = Signal.New()
     local self = {
         Title = Title,
-        Signals = {},
+        Signals = {
+            ToggleSignal = Signal_For_Toggle,
+        },
         Case_Id = CaseId,
         Ui = Gui,
         Keybind = Default_Keybind,
@@ -75,8 +77,19 @@ end
 
 -- / Module Environment
 
-function UiLibrary:SetVisible()
-    self.Ui.Enabled = not self.Ui.Enabled
+function UiLibrary:AnimateVisible()
+    
+end
+
+function UiLibrary:SetToggleFunction(Callback: Function)
+    print("no")
+    if Callback then
+        self.Signals.ToggleSignal:Connect(Callback)
+    end
+
+    print("yes")
+
+
 end
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
@@ -85,14 +98,7 @@ function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
 end
 
 function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (ex. if true set to false if nil case)
-    local ToggleSignal:Signal = Signal.new
-
-    table.insert(self.Signals,ToggleSignal)
-
-    ToggleSignal:Connect(function()
-        
-    end)
-
+    self.Signals.ToggleSignal:Fire(Boolean or nil)
 end
 
 env.Cleanup = function()
