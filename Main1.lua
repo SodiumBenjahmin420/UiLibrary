@@ -1,4 +1,4 @@
--- / Global check
+-- / Global
 local env = getgenv()
 
 env.GlobalActive = false
@@ -27,6 +27,7 @@ local Signal = loadstring(game:HttpGet("https://raw.githubusercontent.com/Quenty
 local Gossamer = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Gossamer"))()
 
 -- / Services
+local ContextActionService = game:GetService("ContextActionService")
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -43,6 +44,7 @@ local Default_Keybind = KeyCode.Space
 local Default_ModifierBind = KeyCode.LeftControl
 local Active_Keybind = Default_Keybind
 local Active_ModifierBind = Default_ModifierBind
+local IsModifierHeld = false
 
 -- / Module
 local UiLibrary = {}
@@ -55,7 +57,6 @@ function UiLibrary.new(Title: string)
 
     local Gui: ScreenGui = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/GUI"))()
     Gui.Name = Gui.Name .. CaseId
-    local Group = Gossamer:Create(Gui.UiHolder,1,true)
     local self = {
         Title = Title,
         Signals = {
@@ -63,7 +64,7 @@ function UiLibrary.new(Title: string)
         },
         Case_Id = CaseId,
         Ui = Gui,
-        CanvasGroup = Group,
+        CanvasGroup = Gossamer:Create(Gui.UiHolder,1,true),
     }
     local executionId = HttpService:GenerateGUID(false)
     PreviousExecutions[executionId] = {
@@ -74,6 +75,15 @@ function UiLibrary.new(Title: string)
     self.Signals.ToggleSignal:Connect(function()
         DefaultToggle(self.Ui)
     end)
+
+    ContextActionService:BindAction("BlockDefaultActions", function(_, state, _)
+        if state == Enum.UserInputState.Begin then
+            IsModifierHeld = true
+        elseif state == Enum.UserInputState.End then
+            IsModifierHeld = false
+        end
+        return Enum.ContextActionResult.Sink
+    end, false, Active_ModifierBind)
 
     LibraryInstance = setmetatable(self, UiLibrary)
 
@@ -97,8 +107,19 @@ end
 
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
+    ContextActionService:UnbindAction("BlockDefaultActions")
+    
     Active_Keybind = Keybind or Default_Keybind
     Active_ModifierBind = ModifierBind or Default_ModifierBind
+    
+    ContextActionService:BindAction("BlockDefaultActions", function(_, state, _)
+        if state == Enum.UserInputState.Begin then
+            IsModifierHeld = true
+        elseif state == Enum.UserInputState.End then
+            IsModifierHeld = false
+        end
+        return Enum.ContextActionResult.Sink
+    end, false, Active_ModifierBind)
 end
 
 function UiLibrary:Toggle(Boolean:boolean) -- If nil will set to the opposite (ex. if true set to false if nil case)
@@ -108,12 +129,9 @@ end
 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
-    if input.KeyCode == Active_Keybind and UserInputService:IsKeyDown(Active_ModifierBind)then
-        
+    if input.KeyCode == Active_Keybind and IsModifierHeld then
         LibraryInstance:Toggle()
-
     end
-
 end)
 
 env.Cleanup = function()
