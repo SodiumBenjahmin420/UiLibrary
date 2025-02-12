@@ -1,5 +1,3 @@
---!nocheck
-
 -- / Global
 local env = getgenv()
 
@@ -100,7 +98,7 @@ function UiLibrary:SetToggleFunction(Callback: Function)
     end
 
 end
-UiLibrary:SetToggleFunction()
+
 
 function UiLibrary:ChangeBinds(Keybind:Enum.KeyCode, ModifierBind:Enum.KeyCode)
     Active_Keybind = Keybind or Default_Keybind
