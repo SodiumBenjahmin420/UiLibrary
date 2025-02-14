@@ -7,7 +7,7 @@
  Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
 ]=]
 
--- Instances: 22 | Scripts: 0 | Modules: 0 | Tags: 0
+-- Instances: 27 | Scripts: 0 | Modules: 0 | Tags: 0
 local G2L = {};
 
 -- StarterGui.UiLibrary-
@@ -29,6 +29,7 @@ G2L["2"]["BackgroundTransparency"] = 1;
 
 -- StarterGui.UiLibrary-.UiHolder.Pattern
 G2L["3"] = Instance.new("ImageLabel", G2L["2"]);
+G2L["3"]["ZIndex"] = 2;
 G2L["3"]["BorderSizePixel"] = 0;
 G2L["3"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["3"]["ScaleType"] = Enum.ScaleType.Tile;
@@ -63,101 +64,112 @@ G2L["5"]["Name"] = [[Overlay]];
 G2L["5"]["Position"] = UDim2.new(0, -3, 0, -3);
 
 
--- StarterGui.UiLibrary-.UiHolder.TitleHolder
-G2L["6"] = Instance.new("Frame", G2L["2"]);
+-- StarterGui.UiLibrary-.UiHolder.Pattern.DescriptionHolder
+G2L["6"] = Instance.new("ScrollingFrame", G2L["3"]);
+G2L["6"]["Visible"] = false;
+G2L["6"]["Active"] = true;
 G2L["6"]["BorderSizePixel"] = 0;
 G2L["6"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["6"]["Size"] = UDim2.new(1.00459, 1, 0.71469, 1);
-G2L["6"]["Position"] = UDim2.new(-0.00917, 1, -0.79743, 1);
+G2L["6"]["Name"] = [[DescriptionHolder]];
+G2L["6"]["ScrollBarImageTransparency"] = 1;
+G2L["6"]["Size"] = UDim2.new(0.99089, 1, 0.49037, 1);
+G2L["6"]["ScrollBarImageColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["6"]["Position"] = UDim2.new(-0.00911, 1, 0.47191, 1);
 G2L["6"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["6"]["Name"] = [[TitleHolder]];
 G2L["6"]["BackgroundTransparency"] = 1;
 
 
--- StarterGui.UiLibrary-.UiHolder.TitleHolder.Title
+-- StarterGui.UiLibrary-.UiHolder.Pattern.DescriptionHolder.Description
 G2L["7"] = Instance.new("TextLabel", G2L["6"]);
 G2L["7"]["TextWrapped"] = true;
+G2L["7"]["Active"] = true;
+G2L["7"]["ZIndex"] = 2;
 G2L["7"]["BorderSizePixel"] = 0;
 G2L["7"]["TextSize"] = 80;
 G2L["7"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["7"]["TextTransparency"] = 0.3;
-G2L["7"]["TextYAlignment"] = Enum.TextYAlignment.Bottom;
+G2L["7"]["TextTransparency"] = 0.2;
+G2L["7"]["TextYAlignment"] = Enum.TextYAlignment.Top;
 G2L["7"]["TextScaled"] = true;
-G2L["7"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["7"]["BackgroundColor3"] = Color3.fromRGB(62, 46, 70);
 G2L["7"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
 G2L["7"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["7"]["BackgroundTransparency"] = 1;
 G2L["7"]["Size"] = UDim2.new(1, 1, 1, 1);
 G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["7"]["Text"] = [[Default Title]];
-G2L["7"]["Name"] = [[Title]];
-G2L["7"]["Position"] = UDim2.new(-0.00514, 0, -0.19367, 0);
+G2L["7"]["Text"] = [[Prints String: (Arg)]];
+G2L["7"]["Selectable"] = true;
+G2L["7"]["Name"] = [[Description]];
+G2L["7"]["Position"] = UDim2.new(0, 1, 0, 1);
 
 
--- StarterGui.UiLibrary-.UiHolder.TitleHolder.Title.UITextSizeConstraint
+-- StarterGui.UiLibrary-.UiHolder.Pattern.DescriptionHolder.Description.UITextSizeConstraint
 G2L["8"] = Instance.new("UITextSizeConstraint", G2L["7"]);
-G2L["8"]["MaxTextSize"] = 18;
+G2L["8"]["MaxTextSize"] = 14;
 
 
--- StarterGui.UiLibrary-.UiHolder.TitleHolder.Title.UIStroke
+-- StarterGui.UiLibrary-.UiHolder.Pattern.DescriptionHolder.Description.UIStroke
 G2L["9"] = Instance.new("UIStroke", G2L["7"]);
-G2L["9"]["Transparency"] = 0.4;
-G2L["9"]["Color"] = Color3.fromRGB(20, 14, 24);
+G2L["9"]["Transparency"] = 0.5;
 
 
--- StarterGui.UiLibrary-.UiHolder.SearchIcon
-G2L["a"] = Instance.new("ImageLabel", G2L["2"]);
-G2L["a"]["BorderSizePixel"] = 0;
-G2L["a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["a"]["ScaleType"] = Enum.ScaleType.Crop;
-G2L["a"]["ImageTransparency"] = 0.2;
-G2L["a"]["Image"] = [[rbxassetid://14942740976]];
-G2L["a"]["Size"] = UDim2.new(0.16055, 1, 1, 1);
-G2L["a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["a"]["BackgroundTransparency"] = 1;
-G2L["a"]["Name"] = [[SearchIcon]];
+-- StarterGui.UiLibrary-.UiHolder.Pattern.DescriptionHolder.Description.UICorner
+G2L["a"] = Instance.new("UICorner", G2L["7"]);
+G2L["a"]["CornerRadius"] = UDim.new(0.02, 1);
 
 
--- StarterGui.UiLibrary-.UiHolder.CommandBox
-G2L["b"] = Instance.new("TextBox", G2L["2"]);
-G2L["b"]["CursorPosition"] = -1;
-G2L["b"]["Name"] = [[CommandBox]];
-G2L["b"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["b"]["ZIndex"] = 2;
+-- StarterGui.UiLibrary-.UiHolder.TitleHolder
+G2L["b"] = Instance.new("Frame", G2L["2"]);
 G2L["b"]["BorderSizePixel"] = 0;
-G2L["b"]["TextWrapped"] = true;
-G2L["b"]["TextTransparency"] = 0.1;
-G2L["b"]["TextSize"] = 80;
-G2L["b"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["b"]["TextScaled"] = true;
-G2L["b"]["BackgroundColor3"] = Color3.fromRGB(62, 46, 70);
-G2L["b"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-G2L["b"]["Size"] = UDim2.new(0.65889, 1, 1, 1);
-G2L["b"]["Position"] = UDim2.new(0.17597, 0, 0, 0);
+G2L["b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["b"]["Size"] = UDim2.new(1.00459, 1, 0.71469, 1);
+G2L["b"]["Position"] = UDim2.new(-0.00917, 1, -0.79743, 1);
 G2L["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["b"]["Text"] = [[]];
+G2L["b"]["Name"] = [[TitleHolder]];
 G2L["b"]["BackgroundTransparency"] = 1;
 
 
--- StarterGui.UiLibrary-.UiHolder.CommandBox.UITextSizeConstraint
-G2L["c"] = Instance.new("UITextSizeConstraint", G2L["b"]);
-G2L["c"]["MaxTextSize"] = 24;
+-- StarterGui.UiLibrary-.UiHolder.TitleHolder.Title
+G2L["c"] = Instance.new("TextLabel", G2L["b"]);
+G2L["c"]["TextWrapped"] = true;
+G2L["c"]["BorderSizePixel"] = 0;
+G2L["c"]["TextSize"] = 80;
+G2L["c"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["c"]["TextTransparency"] = 0.3;
+G2L["c"]["TextYAlignment"] = Enum.TextYAlignment.Bottom;
+G2L["c"]["TextScaled"] = true;
+G2L["c"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["c"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["c"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["c"]["BackgroundTransparency"] = 1;
+G2L["c"]["Size"] = UDim2.new(1, 1, 1, 1);
+G2L["c"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["c"]["Text"] = [[Default Title]];
+G2L["c"]["Name"] = [[Title]];
+G2L["c"]["Position"] = UDim2.new(-0.00514, 0, -0.19367, 0);
 
 
--- StarterGui.UiLibrary-.UiHolder.CommandBox.UIStroke
-G2L["d"] = Instance.new("UIStroke", G2L["b"]);
+-- StarterGui.UiLibrary-.UiHolder.TitleHolder.Title.UITextSizeConstraint
+G2L["d"] = Instance.new("UITextSizeConstraint", G2L["c"]);
+G2L["d"]["MaxTextSize"] = 18;
 
 
+-- StarterGui.UiLibrary-.UiHolder.TitleHolder.Title.UIStroke
+G2L["e"] = Instance.new("UIStroke", G2L["c"]);
+G2L["e"]["Transparency"] = 0.4;
+G2L["e"]["Color"] = Color3.fromRGB(20, 14, 24);
 
--- StarterGui.UiLibrary-.UiHolder.CommandBox.UICorner
-G2L["e"] = Instance.new("UICorner", G2L["b"]);
-G2L["e"]["CornerRadius"] = UDim.new(0.02, 1);
 
-
--- StarterGui.UiLibrary-.UiHolder.CommandBox.UICorner.baseplate
-G2L["f"] = Instance.new("Decal", G2L["e"]);
-G2L["f"]["Name"] = [[baseplate]];
-G2L["f"]["Texture"] = [[http://www.roblox.com/asset/?id=15316966311]];
+-- StarterGui.UiLibrary-.UiHolder.SearchIcon
+G2L["f"] = Instance.new("ImageLabel", G2L["2"]);
+G2L["f"]["BorderSizePixel"] = 0;
+G2L["f"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["f"]["ScaleType"] = Enum.ScaleType.Crop;
+G2L["f"]["ImageTransparency"] = 0.2;
+G2L["f"]["Image"] = [[rbxassetid://14942740976]];
+G2L["f"]["Size"] = UDim2.new(0.16055, 1, 1, 1);
+G2L["f"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["f"]["BackgroundTransparency"] = 1;
+G2L["f"]["Name"] = [[SearchIcon]];
 
 
 -- StarterGui.UiLibrary-.UiHolder.SettingsButton
@@ -224,6 +236,48 @@ G2L["16"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["16"]["Size"] = UDim2.new(1.02857, 1, 0, 1);
 G2L["16"]["Position"] = UDim2.new(-0.02078, 1, 1, 1);
 G2L["16"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+
+
+-- StarterGui.UiLibrary-.UiHolder.CommandBox
+G2L["17"] = Instance.new("TextBox", G2L["2"]);
+G2L["17"]["CursorPosition"] = -1;
+G2L["17"]["Name"] = [[CommandBox]];
+G2L["17"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+G2L["17"]["ZIndex"] = 2;
+G2L["17"]["BorderSizePixel"] = 0;
+G2L["17"]["TextWrapped"] = true;
+G2L["17"]["TextTransparency"] = 0.1;
+G2L["17"]["TextSize"] = 80;
+G2L["17"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["17"]["TextScaled"] = true;
+G2L["17"]["BackgroundColor3"] = Color3.fromRGB(62, 46, 70);
+G2L["17"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+G2L["17"]["Size"] = UDim2.new(0.65889, 1, 1, 1);
+G2L["17"]["Position"] = UDim2.new(0.17597, 0, 0, 0);
+G2L["17"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["17"]["Text"] = [[]];
+G2L["17"]["BackgroundTransparency"] = 1;
+
+
+-- StarterGui.UiLibrary-.UiHolder.CommandBox.UITextSizeConstraint
+G2L["18"] = Instance.new("UITextSizeConstraint", G2L["17"]);
+G2L["18"]["MaxTextSize"] = 24;
+
+
+-- StarterGui.UiLibrary-.UiHolder.CommandBox.UIStroke
+G2L["19"] = Instance.new("UIStroke", G2L["17"]);
+
+
+
+-- StarterGui.UiLibrary-.UiHolder.CommandBox.UICorner
+G2L["1a"] = Instance.new("UICorner", G2L["17"]);
+G2L["1a"]["CornerRadius"] = UDim.new(0.02, 1);
+
+
+-- StarterGui.UiLibrary-.UiHolder.CommandBox.UICorner.baseplate
+G2L["1b"] = Instance.new("Decal", G2L["1a"]);
+G2L["1b"]["Name"] = [[baseplate]];
+G2L["1b"]["Texture"] = [[http://www.roblox.com/asset/?id=15316966311]];
 
 
 
