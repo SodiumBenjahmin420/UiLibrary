@@ -7,7 +7,7 @@
  Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER 
 ]=]
 
--- Instances: 21 | Scripts: 0 | Modules: 0 | Tags: 0
+-- Instances: 22 | Scripts: 0 | Modules: 0 | Tags: 0
 local G2L = {};
 
 -- StarterGui.UiLibrary-
@@ -20,7 +20,7 @@ G2L["2"] = Instance.new("Frame", G2L["1"]);
 G2L["2"]["BorderSizePixel"] = 0;
 G2L["2"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["2"]["AnchorPoint"] = Vector2.new(1, 1);
-G2L["2"]["Size"] = UDim2.new(0.2, 1, 0.05, 1);
+G2L["2"]["Size"] = UDim2.new(0.10026, 0, 0.02546, 0);
 G2L["2"]["Position"] = UDim2.new(0.43317, 0, 0.40181, 0);
 G2L["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["2"]["Name"] = [[UiHolder]];
@@ -30,14 +30,15 @@ G2L["2"]["BackgroundTransparency"] = 1;
 -- StarterGui.UiLibrary-.UiHolder.Pattern
 G2L["3"] = Instance.new("ImageLabel", G2L["2"]);
 G2L["3"]["BorderSizePixel"] = 0;
-G2L["3"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-G2L["3"]["ScaleType"] = Enum.ScaleType.Crop;
-G2L["3"]["ImageTransparency"] = 0.15;
-G2L["3"]["Image"] = [[rbxassetid://119444060294500]];
-G2L["3"]["TileSize"] = UDim2.new(0.5, 0, 2, 0);
+G2L["3"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["3"]["ScaleType"] = Enum.ScaleType.Tile;
+G2L["3"]["ImageTransparency"] = 0.8;
+G2L["3"]["ImageColor3"] = Color3.fromRGB(0, 0, 0);
+G2L["3"]["Image"] = [[http://www.roblox.com/asset/?id=4280494932]];
+G2L["3"]["TileSize"] = UDim2.new(0, 60, 0, 60);
 G2L["3"]["Size"] = UDim2.new(1, 1, 1, 1);
 G2L["3"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-G2L["3"]["BackgroundTransparency"] = 1;
+G2L["3"]["BackgroundTransparency"] = 0.4;
 G2L["3"]["Name"] = [[Pattern]];
 
 
@@ -46,10 +47,20 @@ G2L["4"] = Instance.new("UICorner", G2L["3"]);
 
 
 
--- StarterGui.UiLibrary-.UiHolder.Pattern.UIStroke
-G2L["5"] = Instance.new("UIStroke", G2L["3"]);
-G2L["5"]["Thickness"] = 2;
-G2L["5"]["Color"] = Color3.fromRGB(14, 4, 20);
+-- StarterGui.UiLibrary-.UiHolder.Pattern.Overlay
+G2L["5"] = Instance.new("ImageLabel", G2L["3"]);
+G2L["5"]["ZIndex"] = 10;
+G2L["5"]["BorderSizePixel"] = 0;
+G2L["5"]["SliceCenter"] = Rect.new(14, 14, 18, 18);
+G2L["5"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["5"]["ScaleType"] = Enum.ScaleType.Slice;
+G2L["5"]["ImageColor3"] = Color3.fromRGB(184, 198, 212);
+G2L["5"]["Image"] = [[http://www.roblox.com/asset/?id=4280422108]];
+G2L["5"]["Size"] = UDim2.new(1, 6, 1, 6);
+G2L["5"]["BorderColor3"] = Color3.fromRGB(28, 43, 54);
+G2L["5"]["BackgroundTransparency"] = 1;
+G2L["5"]["Name"] = [[Overlay]];
+G2L["5"]["Position"] = UDim2.new(0, -3, 0, -3);
 
 
 -- StarterGui.UiLibrary-.UiHolder.TitleHolder
@@ -69,7 +80,7 @@ G2L["7"]["TextWrapped"] = true;
 G2L["7"]["BorderSizePixel"] = 0;
 G2L["7"]["TextSize"] = 80;
 G2L["7"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["7"]["TextTransparency"] = 0.4;
+G2L["7"]["TextTransparency"] = 0.3;
 G2L["7"]["TextYAlignment"] = Enum.TextYAlignment.Bottom;
 G2L["7"]["TextScaled"] = true;
 G2L["7"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
@@ -80,6 +91,7 @@ G2L["7"]["Size"] = UDim2.new(1, 1, 1, 1);
 G2L["7"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["7"]["Text"] = [[Default Title]];
 G2L["7"]["Name"] = [[Title]];
+G2L["7"]["Position"] = UDim2.new(-0.00514, 0, -0.19367, 0);
 
 
 -- StarterGui.UiLibrary-.UiHolder.TitleHolder.Title.UITextSizeConstraint
@@ -98,7 +110,7 @@ G2L["a"] = Instance.new("ImageLabel", G2L["2"]);
 G2L["a"]["BorderSizePixel"] = 0;
 G2L["a"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["a"]["ScaleType"] = Enum.ScaleType.Crop;
-G2L["a"]["ImageTransparency"] = 0.5;
+G2L["a"]["ImageTransparency"] = 0.2;
 G2L["a"]["Image"] = [[rbxassetid://14942740976]];
 G2L["a"]["Size"] = UDim2.new(0.16055, 1, 1, 1);
 G2L["a"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
@@ -108,6 +120,7 @@ G2L["a"]["Name"] = [[SearchIcon]];
 
 -- StarterGui.UiLibrary-.UiHolder.CommandBox
 G2L["b"] = Instance.new("TextBox", G2L["2"]);
+G2L["b"]["CursorPosition"] = -1;
 G2L["b"]["Name"] = [[CommandBox]];
 G2L["b"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 G2L["b"]["ZIndex"] = 2;
@@ -123,7 +136,7 @@ G2L["b"]["Size"] = UDim2.new(0.65889, 1, 1, 1);
 G2L["b"]["Position"] = UDim2.new(0.17597, 0, 0, 0);
 G2L["b"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 G2L["b"]["Text"] = [[]];
-G2L["b"]["BackgroundTransparency"] = 0.7;
+G2L["b"]["BackgroundTransparency"] = 1;
 
 
 -- StarterGui.UiLibrary-.UiHolder.CommandBox.UITextSizeConstraint
@@ -141,10 +154,10 @@ G2L["e"] = Instance.new("UICorner", G2L["b"]);
 G2L["e"]["CornerRadius"] = UDim.new(0.02, 1);
 
 
--- StarterGui.UiLibrary-.UiHolder.CommandBox.UIStroke
-G2L["f"] = Instance.new("UIStroke", G2L["b"]);
-G2L["f"]["Transparency"] = 0.6;
-G2L["f"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+-- StarterGui.UiLibrary-.UiHolder.CommandBox.UICorner.baseplate
+G2L["f"] = Instance.new("Decal", G2L["e"]);
+G2L["f"]["Name"] = [[baseplate]];
+G2L["f"]["Texture"] = [[http://www.roblox.com/asset/?id=15316966311]];
 
 
 -- StarterGui.UiLibrary-.UiHolder.SettingsButton
@@ -152,7 +165,7 @@ G2L["10"] = Instance.new("ImageButton", G2L["2"]);
 G2L["10"]["BorderSizePixel"] = 0;
 G2L["10"]["SliceScale"] = 2;
 G2L["10"]["ScaleType"] = Enum.ScaleType.Crop;
-G2L["10"]["ImageTransparency"] = 0.5;
+G2L["10"]["ImageTransparency"] = 0.2;
 G2L["10"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 G2L["10"]["Image"] = [[rbxassetid://14942807992]];
 G2L["10"]["Size"] = UDim2.new(0.16055, 1, 1, 1);
@@ -164,7 +177,7 @@ G2L["10"]["Position"] = UDim2.new(0.83945, 0, -0.02853, 0);
 
 -- StarterGui.UiLibrary-.UiHolder.UIScale
 G2L["11"] = Instance.new("UIScale", G2L["2"]);
-G2L["11"]["Scale"] = 0.5;
+
 
 
 -- StarterGui.UiLibrary-.UiHolder.AutoComplete
@@ -175,7 +188,7 @@ G2L["12"]["ZIndex"] = 2;
 G2L["12"]["BorderSizePixel"] = 0;
 G2L["12"]["TextSize"] = 80;
 G2L["12"]["TextXAlignment"] = Enum.TextXAlignment.Left;
-G2L["12"]["TextTransparency"] = 0.6;
+G2L["12"]["TextTransparency"] = 0.2;
 G2L["12"]["TextScaled"] = true;
 G2L["12"]["BackgroundColor3"] = Color3.fromRGB(62, 46, 70);
 G2L["12"]["FontFace"] = Font.new([[rbxasset://fonts/families/SourceSansPro.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
@@ -202,6 +215,15 @@ G2L["14"]["Transparency"] = 0.5;
 -- StarterGui.UiLibrary-.UiHolder.AutoComplete.UICorner
 G2L["15"] = Instance.new("UICorner", G2L["12"]);
 G2L["15"]["CornerRadius"] = UDim.new(0.02, 1);
+
+
+-- StarterGui.UiLibrary-.UiHolder.Frame
+G2L["16"] = Instance.new("Frame", G2L["2"]);
+G2L["16"]["BorderSizePixel"] = 0;
+G2L["16"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+G2L["16"]["Size"] = UDim2.new(1.02857, 1, 0, 1);
+G2L["16"]["Position"] = UDim2.new(-0.02078, 1, 1, 1);
+G2L["16"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 
 
 
