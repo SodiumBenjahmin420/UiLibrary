@@ -21,7 +21,7 @@ resources.
 Anything may "kill" a brio by calling :Destroy() or :Kill().
 ]]
 -- @classmod Brio
-local Maid = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Modules/Maid"))() 
+local Maid = require("Maid")
 local Brio = {}
 Brio.ClassName = "Brio"
 Brio.__index = Brio
