@@ -1,5 +1,5 @@
-local Maid = require("Maid")
-local Brio = require("Brio")
+local Maid = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Modules/Maid"))() 
+local Brio = loadstring(game:HttpGet("https://raw.githubusercontent.com/SodiumBenjahmin420/UiLibrary/refs/heads/Features/Modules/Brio"))() 
 
 local module = {}
 
