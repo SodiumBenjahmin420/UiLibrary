@@ -11,7 +11,7 @@
 local G2L = {};
 
 -- StarterGui.UiLibrary-
-G2L["1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
+G2L["1"] = Instance.new("ScreenGui", gethui());
 G2L["1"]["Name"] = [[UiLibrary-]];
 
 
