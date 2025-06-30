@@ -32,7 +32,7 @@ type Signal = {
 type PreviousExecution = {
     gui: ScreenGui,
     signals: {Signal},
-    connections: {RBXScriptConnection}
+    connections: {RBXScriptConnection}  -- New field to track connections
 }
 
 type FillAfterType = "Players" | "String" -- will add more, but for now players will need to predict users or overalls (the overalls would be "all" "others" "me" "random")
@@ -353,7 +353,6 @@ function UpdateTitle()
     LibraryInstance.Ui.UiHolder.TitleHolder.Title.Text = LibraryInstance.Title
 end
 
-
 function predictCommand(text: string, commands: {[string]: Command})
     local input = text:lower():gsub("^%s*(.-)%s*$", "%1")
     if input == "" then return nil, nil, false, false end
@@ -387,32 +386,6 @@ function predictCommand(text: string, commands: {[string]: Command})
         return originalName .. " " .. userArg, matchedCommand, true, isShorthanded
     end
     
-    if matchedCommand.FillAfterType and not isOnArgument then
-        if matchedCommand.FillAfterType == "Players" then
-            return originalName .. " me", matchedCommand, false, isShorthanded
-        elseif matchedCommand.FillAfterType == "String" then
-            return originalName .. " ", matchedCommand, false, isShorthanded
-        end
-    end
-    
-    return originalName, matchedCommand, false, isShorthanded
-end
-    
-    if not matchedCommand then return nil, nil, false, false end
-    
-    -- Check if we're after a space (on argument part)
-    local isOnArgument = text:match("%S%s+$") ~= nil
-    
-    -- Handle argument prediction based on command type
-    if matchedCommand.FillAfterType and isOnArgument then
-        local userArg = text:match("%s+(.*)$") or ""
-        userArg = userArg:gsub("^%s*(.-)%s*$", "%1")
-        
-        -- Use the full original command name when on argument part
-        return originalName .. " " .. userArg, matchedCommand, true, isShorthanded
-    end
-    
-    -- If not on argument yet, show full command name
     if matchedCommand.FillAfterType and not isOnArgument then
         if matchedCommand.FillAfterType == "Players" then
             return originalName .. " me", matchedCommand, false, isShorthanded
